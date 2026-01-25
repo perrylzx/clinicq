@@ -1,14 +1,14 @@
 import express from 'express';
-import userRoutes from './routes/userRoutes';
+import clinicRoutes from './routes/clinicRoutes';
 import { errorHandler } from './middlewares/errorHandler';
-import cors from 'cors'
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 // Routes
-app.use('/users', userRoutes);
+app.use('/clinic', clinicRoutes);
 
 // Global error handler (should be after routes)
 app.use(errorHandler);

@@ -13,19 +13,28 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model Clinic {
   id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  name  String
+  speciality String
+  status String
+  queueEntries QueueEntry[]
+  doctors Doctor[]
+  // location
 }
 
-model Post {
+model QueueEntry {
   id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+  patientFields Json
+  clinic    Clinic    @relation(fields: [clinicId], references: [id])
+  clinicId  Int
 }
 
+model Doctor {
+  id        Int     @id @default(autoincrement())
+  name String
+  specialty String
+  bio String
+  clinic    Clinic    @relation(fields: [clinicId], references: [id])
+  clinicId  Int
+}
