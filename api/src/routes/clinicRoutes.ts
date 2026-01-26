@@ -5,6 +5,8 @@ import validate from '../middlewares/validate';
 
 const router = Router();
 
+router.get('/', validate(validators.getClinics), clinicController.getClinics);
+
 router.post(
   '/:id/join',
   validate(validators.joinClinicQueue),

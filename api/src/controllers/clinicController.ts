@@ -2,6 +2,24 @@ import { Request, Response, NextFunction } from 'express';
 import clinicService from '../services/clinicService';
 import validators from '../validators/clinicValidators';
 
+export async function getClinics(
+  req: Request,
+  res: Response<unknown, { data: ReturnType<typeof validators.getClinics> }>,
+  next: NextFunction,
+) {
+  try {
+    const { query } = res.locals.data;
+    const result = await clinicService.getClinics(
+      query.search ?? '',
+      query.page ?? 0,
+      query.filters ?? {},
+    );
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
+
 export async function joinClinicQueue(
   req: Request,
   res: Response<
@@ -73,6 +91,7 @@ export async function updateClinicQueueStatus(
   }
 }
 export default {
+  getClinics,
   joinClinicQueue,
   createClinic,
   viewClinicQueue,

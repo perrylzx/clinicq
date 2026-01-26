@@ -1,5 +1,32 @@
 import { InputJsonValue } from '@prisma/client/runtime/client';
 import { prisma } from '../lib/prisma';
+import clinicValidators from '../validators/clinicValidators';
+
+async function getClinics(
+  search: string,
+  page: number,
+  filters: ReturnType<typeof clinicValidators.getClinics>['query']['filters'],
+) {
+  return prisma.clinic.findMany({
+    where: {
+      ...filters,
+      OR: [
+        {
+          name: { contains: search, mode: 'insensitive' },
+        },
+        {
+          doctors: {
+            some: {
+              OR: [{ name: { contains: search, mode: 'insensitive' } }],
+            },
+          },
+        },
+      ],
+    },
+    take: 3,
+    skip: page,
+  });
+}
 
 async function joinClinicQueue(
   clinicId: number,
@@ -24,6 +51,7 @@ async function updateClinicQueueStatus(clinicId: number, queueStatus: string) {
 }
 
 export default {
+  getClinics,
   joinClinicQueue,
   createClinic,
   viewClinicQueue,

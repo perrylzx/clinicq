@@ -48,10 +48,27 @@ const updateClinicQueueStatus = (req: Request) => {
     params: paramSchema.parse(req.params),
   };
 };
+const getClinics = (req: Request) => {
+  const querySchema = z.object({
+    search: z.string().optional(),
+    filters: z
+      .object({
+        specialty: z.string().optional(),
+      })
+      .optional()
+      .default({}),
+    page: z.coerce.number().optional(),
+  });
+
+  return {
+    query: querySchema.parse(req.query),
+  };
+};
 
 export default {
   joinClinicQueue,
   createClinic,
   viewClinicQueue,
   updateClinicQueueStatus,
+  getClinics,
 };
