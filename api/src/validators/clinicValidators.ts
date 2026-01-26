@@ -1,6 +1,23 @@
 import { Request } from 'express';
 import z from 'zod';
 
+const getClinics = (req: Request) => {
+  const querySchema = z.object({
+    search: z.string().optional(),
+    filters: z
+      .object({
+        specialty: z.string().optional(),
+      })
+      .optional()
+      .default({}),
+    page: z.coerce.number().optional(),
+  });
+
+  return {
+    query: querySchema.parse(req.query),
+  };
+};
+
 const joinClinicQueue = (req: Request) => {
   const paramSchema = z.object({
     id: z.coerce.number(),
@@ -48,27 +65,23 @@ const updateClinicQueueStatus = (req: Request) => {
     params: paramSchema.parse(req.params),
   };
 };
-const getClinics = (req: Request) => {
-  const querySchema = z.object({
-    search: z.string().optional(),
-    filters: z
-      .object({
-        specialty: z.string().optional(),
-      })
-      .optional()
-      .default({}),
-    page: z.coerce.number().optional(),
+
+const updateClinicQueueEntryStatus = (req: Request) => {
+  const paramSchema = z.object({
+    id: z.coerce.number(),
+    status: z.string(),
   });
 
   return {
-    query: querySchema.parse(req.query),
+    params: paramSchema.parse(req.params),
   };
 };
 
 export default {
+  getClinics,
   joinClinicQueue,
   createClinic,
   viewClinicQueue,
   updateClinicQueueStatus,
-  getClinics,
+  updateClinicQueueEntryStatus,
 };

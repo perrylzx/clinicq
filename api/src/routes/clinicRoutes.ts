@@ -30,4 +30,10 @@ router.put(
   clinicController.updateClinicQueueStatus,
 );
 
+router.put(
+  '/:id/queue_entry/:status',
+  validate(validators.updateClinicQueueEntryStatus),
+  clinicController.updateClinicQueueEntryStatus,
+);
+
 export default router;

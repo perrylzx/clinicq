@@ -90,10 +90,30 @@ export async function updateClinicQueueStatus(
     next(e);
   }
 }
+export async function updateClinicQueueEntryStatus(
+  req: Request,
+  res: Response<
+    unknown,
+    { data: ReturnType<typeof validators.updateClinicQueueEntryStatus> }
+  >,
+  next: NextFunction,
+) {
+  try {
+    const { params } = res.locals.data;
+    const result = await clinicService.updateClinicQueueEntryStatus(
+      params.id,
+      params.status,
+    );
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
 export default {
   getClinics,
   joinClinicQueue,
   createClinic,
   viewClinicQueue,
   updateClinicQueueStatus,
+  updateClinicQueueEntryStatus,
 };

@@ -49,6 +49,12 @@ async function updateClinicQueueStatus(clinicId: number, queueStatus: string) {
     data: { queueStatus },
   });
 }
+async function updateClinicQueueEntryStatus(clinicId: number, status: string) {
+  return prisma.queueEntry.update({
+    where: { id: clinicId },
+    data: { status: status },
+  });
+}
 
 export default {
   getClinics,
@@ -56,4 +62,5 @@ export default {
   createClinic,
   viewClinicQueue,
   updateClinicQueueStatus,
+  updateClinicQueueEntryStatus,
 };
