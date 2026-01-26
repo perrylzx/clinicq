@@ -22,4 +22,10 @@ router.get(
   clinicController.viewClinicQueue,
 );
 
+router.put(
+  '/:id/status/:status',
+  validate(validators.updateClinicQueueStatus),
+  clinicController.updateClinicQueueStatus,
+);
+
 export default router;

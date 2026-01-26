@@ -26,7 +26,11 @@ export async function createClinic(
 ) {
   try {
     const { body } = res.locals.data;
-    const result = await clinicService.createClinic(body.specialty, body.name);
+    const result = await clinicService.createClinic(
+      body.specialty,
+      body.name,
+      body.location,
+    );
     res.status(201).json(result);
   } catch (e) {
     next(e);
@@ -49,4 +53,28 @@ export async function viewClinicQueue(
     next(e);
   }
 }
-export default { joinClinicQueue, createClinic, viewClinicQueue };
+export async function updateClinicQueueStatus(
+  req: Request,
+  res: Response<
+    unknown,
+    { data: ReturnType<typeof validators.updateClinicQueueStatus> }
+  >,
+  next: NextFunction,
+) {
+  try {
+    const { params } = res.locals.data;
+    const result = await clinicService.updateClinicQueueStatus(
+      params.id,
+      params.status,
+    );
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
+export default {
+  joinClinicQueue,
+  createClinic,
+  viewClinicQueue,
+  updateClinicQueueStatus,
+};

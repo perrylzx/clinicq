@@ -20,6 +20,7 @@ const createClinic = (req: Request) => {
   const bodySchema = z.object({
     name: z.string(),
     specialty: z.string(),
+    location: z.string(),
   });
 
   return {
@@ -37,4 +38,20 @@ const viewClinicQueue = (req: Request) => {
   };
 };
 
-export default { joinClinicQueue, createClinic, viewClinicQueue };
+const updateClinicQueueStatus = (req: Request) => {
+  const paramSchema = z.object({
+    id: z.coerce.number(),
+    status: z.string(),
+  });
+
+  return {
+    params: paramSchema.parse(req.params),
+  };
+};
+
+export default {
+  joinClinicQueue,
+  createClinic,
+  viewClinicQueue,
+  updateClinicQueueStatus,
+};

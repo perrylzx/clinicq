@@ -17,7 +17,7 @@ model Clinic {
   id    Int     @id @default(autoincrement())
   name  String
   specialty String
-  status String @default("Closed")
+  queueStatus String @default("Closed")
   queueEntries QueueEntry[]
   doctors Doctor[]
   createdAt        DateTime           @default(now())

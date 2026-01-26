@@ -10,7 +10,6 @@ app.use(cors());
 // Routes
 app.use('/clinic', clinicRoutes);
 
-// Global error handler (should be after routes)
 app.use(errorHandler);
 
 export default app;
