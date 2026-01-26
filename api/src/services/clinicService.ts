@@ -1,6 +1,7 @@
 import { InputJsonValue } from '@prisma/client/runtime/client';
 import { prisma } from '../lib/prisma';
 import clinicValidators from '../validators/clinicValidators';
+import { Prisma } from '../generated/prisma/client';
 
 async function getClinics(
   search: string,
@@ -8,6 +9,7 @@ async function getClinics(
   filters: ReturnType<typeof clinicValidators.getClinics>['query']['filters'],
 ) {
   return prisma.clinic.findMany({
+    include: { doctors: true },
     where: {
       ...filters,
       OR: [
@@ -55,6 +57,23 @@ async function updateClinicQueueEntryStatus(clinicId: number, status: string) {
     data: { status: status },
   });
 }
+async function createClinicDoctor(
+  clinicId: number,
+  data: ReturnType<typeof clinicValidators.createClinicDoctor>['body'],
+) {
+  return prisma.doctor.create({
+    data: { ...data, clinicId },
+  });
+}
+async function updateClinicDoctor(
+  doctorId: number,
+  data: ReturnType<typeof clinicValidators.updateClinicDoctor>['body'],
+) {
+  return prisma.doctor.update({
+    where: { id: doctorId },
+    data,
+  });
+}
 
 export default {
   getClinics,
@@ -63,4 +82,6 @@ export default {
   viewClinicQueue,
   updateClinicQueueStatus,
   updateClinicQueueEntryStatus,
+  createClinicDoctor,
+  updateClinicDoctor,
 };

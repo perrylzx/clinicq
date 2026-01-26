@@ -109,6 +109,43 @@ export async function updateClinicQueueEntryStatus(
     next(e);
   }
 }
+export async function createClinicDoctor(
+  req: Request,
+  res: Response<
+    unknown,
+    { data: ReturnType<typeof validators.createClinicDoctor> }
+  >,
+  next: NextFunction,
+) {
+  try {
+    const { params } = res.locals.data;
+    const { body } = res.locals.data;
+    const result = await clinicService.createClinicDoctor(params.id, body);
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
+export async function updateClinicDoctor(
+  req: Request,
+  res: Response<
+    unknown,
+    { data: ReturnType<typeof validators.updateClinicDoctor> }
+  >,
+  next: NextFunction,
+) {
+  try {
+    const { params } = res.locals.data;
+    const { body } = res.locals.data;
+    const result = await clinicService.updateClinicDoctor(
+      params.doctorId,
+      body,
+    );
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
 export default {
   getClinics,
   joinClinicQueue,
@@ -116,4 +153,6 @@ export default {
   viewClinicQueue,
   updateClinicQueueStatus,
   updateClinicQueueEntryStatus,
+  createClinicDoctor,
+  updateClinicDoctor,
 };

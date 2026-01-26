@@ -35,5 +35,15 @@ router.put(
   validate(validators.updateClinicQueueEntryStatus),
   clinicController.updateClinicQueueEntryStatus,
 );
+router.post(
+  '/:id/doctor',
+  validate(validators.createClinicDoctor),
+  clinicController.createClinicDoctor,
+);
+router.put(
+  '/:id/doctor/:doctorId',
+  validate(validators.updateClinicDoctor),
+  clinicController.updateClinicDoctor,
+);
 
 export default router;

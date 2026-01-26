@@ -76,6 +76,38 @@ const updateClinicQueueEntryStatus = (req: Request) => {
     params: paramSchema.parse(req.params),
   };
 };
+const createClinicDoctor = (req: Request) => {
+  const paramSchema = z.object({
+    id: z.coerce.number(),
+  });
+  const bodySchema = z.object({
+    bio: z.string(),
+    name: z.string(),
+    specialty: z.string(),
+  });
+
+  return {
+    params: paramSchema.parse(req.params),
+    body: bodySchema.parse(req.body),
+  };
+};
+const updateClinicDoctor = (req: Request) => {
+  const paramSchema = z.object({
+    id: z.coerce.number(),
+    doctorId: z.coerce.number(),
+  });
+
+  const bodySchema = z.object({
+    bio: z.string().optional(),
+    name: z.string().optional(),
+    specialty: z.string().optional(),
+  });
+
+  return {
+    params: paramSchema.parse(req.params),
+    body: bodySchema.parse(req.body),
+  };
+};
 
 export default {
   getClinics,
@@ -84,4 +116,6 @@ export default {
   viewClinicQueue,
   updateClinicQueueStatus,
   updateClinicQueueEntryStatus,
+  createClinicDoctor,
+  updateClinicDoctor,
 };
