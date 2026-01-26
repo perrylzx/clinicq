@@ -1,7 +1,6 @@
 import { InputJsonValue } from '@prisma/client/runtime/client';
 import { prisma } from '../lib/prisma';
 import clinicValidators from '../validators/clinicValidators';
-import { Prisma } from '../generated/prisma/client';
 
 async function getClinics(
   search: string,

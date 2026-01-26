@@ -32,16 +32,33 @@ services:
         condition: service_healthy
     command: sh -c "npm install && npx prisma generate && npm run dev"
 
-  web:
+  myclinicq:
     build:
-      context: ./web
+      context: ./myclinicq
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      WATCHPACK_POLLING: true
     ports:
       - "3000:3000"
     volumes:
-      - ./web:/app
+      - ./myclinicq:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - api
+    command: npm run dev
+  clinicq:
+    build:
+      context: ./clinicq
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      WATCHPACK_POLLING: true
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./clinicq:/app
       - /app/node_modules
       - /app/.next
     depends_on:
