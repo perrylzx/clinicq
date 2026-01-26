@@ -1,25 +1,12 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Post" DROP CONSTRAINT "Post_authorId_fkey";
-
--- DropTable
-DROP TABLE "Post";
-
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "Clinic" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "speciality" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
+    "specialty" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'Closed',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "location" TEXT NOT NULL,
 
     CONSTRAINT "Clinic_pkey" PRIMARY KEY ("id")
 );
@@ -29,6 +16,9 @@ CREATE TABLE "QueueEntry" (
     "id" SERIAL NOT NULL,
     "patientFields" JSONB NOT NULL,
     "clinicId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'Awaiting arrival',
 
     CONSTRAINT "QueueEntry_pkey" PRIMARY KEY ("id")
 );
@@ -40,6 +30,8 @@ CREATE TABLE "Doctor" (
     "specialty" TEXT NOT NULL,
     "bio" TEXT NOT NULL,
     "clinicId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Doctor_pkey" PRIMARY KEY ("id")
 );

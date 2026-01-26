@@ -16,11 +16,13 @@ datasource db {
 model Clinic {
   id    Int     @id @default(autoincrement())
   name  String
-  speciality String
-  status String
+  specialty String
+  status String @default("Closed")
   queueEntries QueueEntry[]
   doctors Doctor[]
-  // location
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  location String
 }
 
 model QueueEntry {
@@ -28,6 +30,9 @@ model QueueEntry {
   patientFields Json
   clinic    Clinic    @relation(fields: [clinicId], references: [id])
   clinicId  Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  status String @default("Awaiting arrival")
 }
 
 model Doctor {
@@ -37,4 +42,6 @@ model Doctor {
   bio String
   clinic    Clinic    @relation(fields: [clinicId], references: [id])
   clinicId  Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }

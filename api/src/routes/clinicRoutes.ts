@@ -10,5 +10,16 @@ router.post(
   validate(validators.joinClinicQueue),
   clinicController.joinClinicQueue,
 );
+router.post(
+  '/',
+  validate(validators.createClinic),
+  clinicController.createClinic,
+);
+
+router.get(
+  '/:id/queue',
+  validate(validators.viewClinicQueue),
+  clinicController.viewClinicQueue,
+);
 
 export default router;

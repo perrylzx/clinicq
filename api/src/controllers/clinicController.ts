@@ -11,11 +11,42 @@ export async function joinClinicQueue(
   next: NextFunction,
 ) {
   try {
-    const { param, body } = res.locals.data;
-    const result = await clinicService.joinClinicQueue(param.id, body);
-    res.send(201).json(result);
+    const { params, body } = res.locals.data;
+    const result = await clinicService.joinClinicQueue(params.id, body);
+    res.status(201).json(result);
   } catch (e) {
     next(e);
   }
 }
-export default { joinClinicQueue };
+
+export async function createClinic(
+  req: Request,
+  res: Response<unknown, { data: ReturnType<typeof validators.createClinic> }>,
+  next: NextFunction,
+) {
+  try {
+    const { body } = res.locals.data;
+    const result = await clinicService.createClinic(body.specialty, body.name);
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
+
+export async function viewClinicQueue(
+  req: Request,
+  res: Response<
+    unknown,
+    { data: ReturnType<typeof validators.viewClinicQueue> }
+  >,
+  next: NextFunction,
+) {
+  try {
+    const { params } = res.locals.data;
+    const result = await clinicService.viewClinicQueue(params.id);
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
+  }
+}
+export default { joinClinicQueue, createClinic, viewClinicQueue };
